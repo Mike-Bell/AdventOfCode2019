@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "test": "node testRunner.js",
+    "solution": "node solutionRunner.js"
+  },
+  "dependencies": {
+    "jest": "^24.9.0"
+  }
+}
