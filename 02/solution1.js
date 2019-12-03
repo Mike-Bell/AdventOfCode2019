@@ -1,9 +1,10 @@
-const inputHelper = require('../util/inputHelper');
 const computer = require('./computer');
 
-const nums = inputHelper.parseInputToNums(2);
-const newNums = computer.applyNounAndVerb(nums, 12, 2);
+const run = input => {
+    const nums = input.split(',').map(n => +n);
+    const newNums = computer.applyNounAndVerb(nums, 12, 2);
+    
+    return computer.run(newNums);
+};
 
-const answer = computer.run(newNums);
-
-console.log(answer);
+module.exports = {run};

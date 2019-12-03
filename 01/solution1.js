@@ -1,8 +1,8 @@
-const inputHelper = require('../util/inputHelper');
 const fuelCalculator = require('./fuelCalculator');
 
-const nums = inputHelper.parseInputToNums(1);
+const run = input => {
+    const nums = input.split('\n').map(n => +n);
+    return fuelCalculator.calculateTotalFuelNeeded(nums);
+}
 
-const answer = fuelCalculator.calculateTotalFuelNeeded(nums);
-
-console.log(answer);
+module.exports = {run};
