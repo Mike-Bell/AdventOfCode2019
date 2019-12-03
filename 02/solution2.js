@@ -1,7 +1,6 @@
 const computer = require('./computer');
 
-const run = input => {
-    const nums = input.split(',').map(n => +n);
+const run = nums => {
     let noun;
     let verb;
     outerLoop:

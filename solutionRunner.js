@@ -12,7 +12,12 @@ if (day.length == 1) {
     day = `0${day}`;
 }
 
-const input = fs.readFileSync(`./inputs/input${day}.txt`, 'utf8');
+let input = fs.readFileSync(`./inputs/input${day}.txt`, 'utf8');
+
+const inputParserPath = `./${day}/inputParser.js`;
+if (fs.existsSync(inputParserPath)) {
+    input = require(inputParserPath).parse(input);
+}
 
 const runSolution = n => {
     const main = require(`./${day}/solution${n}.js`);

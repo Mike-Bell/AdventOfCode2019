@@ -1,7 +1,6 @@
 const fuelCalculator = require('./fuelCalculator');
 
-const run = input => {
-    const nums = input.split('\n').map(n => +n);
+const run = nums => {
     return fuelCalculator.calculateTotalFuelNeeded(nums);
 }
 
