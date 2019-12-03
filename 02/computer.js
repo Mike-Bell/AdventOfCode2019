@@ -1,4 +1,5 @@
 const run = nums => {
+    nums = [...nums];
     let position = 0;
     while (true) {
         const opcode = nums[position];
@@ -25,4 +26,11 @@ const run = nums => {
 
 const stringToNums = str => str.split(',').map(n => +n);
 
-module.exports = {stringToNums, run};
+const applyNounAndVerb = (nums, noun, verb) => {
+    nums = [...nums];
+    nums[1] = noun;
+    nums[2] = verb;
+    return nums;
+};
+
+module.exports = {stringToNums, run, applyNounAndVerb};
