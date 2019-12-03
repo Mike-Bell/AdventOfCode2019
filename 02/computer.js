@@ -24,8 +24,6 @@ const run = nums => {
     return nums[0];
 };
 
-const stringToNums = str => str.split(',').map(n => +n);
-
 const applyNounAndVerb = (nums, noun, verb) => {
     nums = [...nums];
     nums[1] = noun;
@@ -33,4 +31,7 @@ const applyNounAndVerb = (nums, noun, verb) => {
     return nums;
 };
 
-module.exports = {stringToNums, run, applyNounAndVerb};
+module.exports = {
+    run,
+    applyNounAndVerb
+};
