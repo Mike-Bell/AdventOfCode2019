@@ -15,4 +15,10 @@ describe('fuelCalcuator', () => {
             expect(fuelCalcuator.calculateTotalFuelNeeded([12, 14])).toBe(4);
         });
     });
+
+    describe('calculateFuelNeededIncludingFuel', () => {
+        it('passes example', () => {
+            expect(fuelCalcuator.calculateFuelNeededIncludingFuel(100756)).toBe(50346);
+        });
+    });
 });
