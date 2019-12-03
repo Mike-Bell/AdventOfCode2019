@@ -1,8 +1,7 @@
-const fs = require('fs');
+const inputHelper = require('../util/inputHelper');
 const fuelCalculator = require('./fuelCalculator');
 
-const input = fs.readFileSync('./input1.txt', 'utf8');
-const nums = input.split('\n').map(n => +n);
+const nums = inputHelper.parseInputToNums(1);
 
 const answer = fuelCalculator.calculateTotalFuelNeededIncludingFuel(nums);
 

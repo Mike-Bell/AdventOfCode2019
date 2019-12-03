@@ -1,8 +1,7 @@
-const fs = require('fs');
+const inputHelper = require('../util/inputHelper');
 const computer = require('./computer');
 
-const input = fs.readFileSync('./input1.txt', 'utf8');
-const nums = computer.stringToNums(input);
+const nums = inputHelper.parseInputToNums(2);
 
 let noun;
 let verb;
