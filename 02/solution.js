@@ -1,6 +1,14 @@
 const computer = require('./computer');
 
-const run = nums => {
+const parseInput = input => input.split(',').map(n => +n);
+
+const runPart1 = nums => {
+    const newNums = computer.applyNounAndVerb(nums, 12, 2);
+    
+    return computer.run(newNums);
+};
+
+const runPart2 = nums => {
     let noun;
     let verb;
     outerLoop:
@@ -16,4 +24,4 @@ const run = nums => {
     return noun * 100 + verb;
 };
 
-module.exports = {run};
+module.exports = {parseInput, runPart1, runPart2};
