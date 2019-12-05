@@ -1,15 +1,16 @@
-const run = range => {
-    let validPasswords = 0;
-    for (let i = range[0]; i < range[1]; i++) {
+const range = require('../utils/range');
+
+const run = passwordRange => {
+    return range(passwordRange[0], passwordRange[1]).filter(password => {
         let hasDouble = false;
         let alwaysIncrements = true;
-        const strI = '' + i;
+        const strPassword = '' + password;
 
-        [...strI].forEach((c, ci) => {
+        [...strPassword].forEach((c, ci) => {
             const n = +c;
-            const lastN = strI[ci - 1];
-            const lastLastN = strI[ci - 2];
-            const nextN = strI[ci + 1];
+            const lastN = strPassword[ci - 1];
+            const lastLastN = strPassword[ci - 2];
+            const nextN = strPassword[ci + 1];
             if (lastN > n) {
                 alwaysIncrements = false;
             } else if (lastN == n && lastLastN != n && nextN != n) {
@@ -17,12 +18,8 @@ const run = range => {
             }
         });
 
-        if (hasDouble && alwaysIncrements) {
-            validPasswords++;
-        }
-    }
-
-    return validPasswords;
+        return hasDouble && alwaysIncrements;
+    }).length;
 };
 
 module.exports = {run};
