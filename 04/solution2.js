@@ -5,6 +5,6 @@ const run = passwordRange => range(passwordRange[0], passwordRange[1])
         .reduce((acc, _, i, o) => i > 0 ? [...acc, [o[i - 2], o[i - 1], o[i], o[i + 1]]] : acc, [])
         .reduce((acc, w) => [acc[0] || w[1] == w[2] && w[1] != w[0] && w[1] != w[3], acc[1] && w[2] >= w[1]], [false, true])
         .every(ele => ele)
-).length;
+    ).length;
 
 module.exports = {run};
