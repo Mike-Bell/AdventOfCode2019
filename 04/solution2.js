@@ -1,25 +1,10 @@
 const range = require('../utils/range');
 
-const run = passwordRange => {
-    return range(passwordRange[0], passwordRange[1]).filter(password => {
-        let hasDouble = false;
-        let alwaysIncrements = true;
-        const strPassword = '' + password;
+const run = passwordRange => range(passwordRange[0], passwordRange[1]).filter(password => {
+    const windows = ('' + password).split('')
+        .reduce((acc, _, i, o) => i > 0 ? [...acc, [o[i - 2], o[i - 1], o[i], o[i + 1]]] : acc, []);
 
-        [...strPassword].forEach((c, ci) => {
-            const n = +c;
-            const lastN = strPassword[ci - 1];
-            const lastLastN = strPassword[ci - 2];
-            const nextN = strPassword[ci + 1];
-            if (lastN > n) {
-                alwaysIncrements = false;
-            } else if (lastN == n && lastLastN != n && nextN != n) {
-                hasDouble = true;
-            }
-        });
-
-        return hasDouble && alwaysIncrements;
-    }).length;
-};
+    return windows.some(w => w[1] == w[2] && w[1] != w[0] && w[1] != w[3]) && !windows.some(w => w[1] > w[2]);
+}).length;
 
 module.exports = {run};
