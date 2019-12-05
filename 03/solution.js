@@ -1,8 +1,9 @@
 const worker = require('./worker');
 
 const parseInput = input => input.split('\n')
-                            .map(arr => arr.split(',')
-                                           .map(command => ({direction: command[0], distance: +command.slice(1)})));
+    .map(arr => arr.split(',')
+        .map(command => ({direction: command[0], distance: +command.slice(1)}))
+    );
 
 const runPart1 = commands => {
     const [wire1Points, wire2Points] = commands.map(worker.pointsFromCommands);
