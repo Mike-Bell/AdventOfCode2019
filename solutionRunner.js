@@ -13,26 +13,19 @@ if (day.length == 1) {
 }
 
 let input = fs.readFileSync(`./inputs/input${day}.txt`, 'utf8');
-
-const inputParserPath = `./${day}/inputParser.js`;
-if (fs.existsSync(inputParserPath)) {
-    input = require(inputParserPath).parse(input);
-}
-
-const runSolution = n => {
-    const main = require(`./${day}/solution${n}.js`);
-    const answer = main.run(input);
-    console.log(answer);
+const solutionRunner = require(`./${day}/solution.js`);
+if (solutionRunner.parseInput) {
+    input = solutionRunner.parseInput(input);
 }
 
 if (args.length == 1) {
-    runSolution(1);
-    runSolution(2);
+    console.log(solutionRunner.runPart1(input));
+    console.log(solutionRunner.runPart2(input));
 } else {
     const oneOrTwo = args[1];
     if (oneOrTwo != 1 && oneOrTwo != 2) {
         console.log('Number after dash must be 1 or 2');
         return;
     }
-    runSolution(oneOrTwo);
+    console.log(solutionRunner[`runPart${oneOrTwo}`](input));
 }
