@@ -1,9 +1,9 @@
 # AdventOfCode2019
 Advent of code 2019
 
-Folders are organized by day
+Folders are organized by day. Input txt files are all in the `inputs` folder.
 
-Within each day is a bundle of scripts / node modules, notably two scripts named `solution1.js` and `solution2.js`. `solution1.js` represents the solution for the first part of the problem and `solution2.js` represents the solution to the second part of the problem. There should also be modules with tests (hopefully).
+Within each day is a bundle of scripts / node modules, notably two scripts named `solution.js`. Within that module, `runPart1` is the method for solving part 1 of the day, and `runPart2` is the method for solving part 2 of the day. Solution modules may also define a `parseInput` method. If this method is defined, input from the appropriate `inputxy.txt` file will be automatically run through that method before being passed to the solvers.
 
 To run a given solution, from the top-level folder, run `npm run solution [X]`. Where `X` is one of the advent days. If a single number is specified, (e.g. `npm run solution 12`), both parts of the solution will be run and their output will be put in the console. Alternatively, you can run a single part of the solution, by specifying `1` or `2` after a dash (e.g. `npm run solution 7-1` or `npm run solution 20-2`).
 
