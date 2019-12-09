@@ -1,65 +1,77 @@
 const create = (arr, phaseSetting, usePhaseSetting) => {
     let pos = 0;
-    let output = null;
+    let output = 0;
     let hasUsedPhaseSetting = !usePhaseSetting;
-    let input = null;
+    let input = 0;
+    let relativeBase = 0;
+
+    const v = i => arr[i] || 0;
     
     const operations = {
-        1: (v1, v2) => {
-            arr[arr[pos + 3]] = v1 + v2;
+        1: (i1, i2, i3) => {
+            arr[i3] = v(i1) + v(i2);
             pos += 4;
         },
-        2: (v1, v2) => {
-            arr[arr[pos + 3]] = v1 * v2;
+        2: (i1, i2, i3) => {
+            arr[i3] = v(i1) * v(i2);
             pos += 4;
         },
-        3: () => {
-            arr[arr[pos + 1]] = hasUsedPhaseSetting ? input : phaseSetting;
+        3: i1 => {
+            arr[i1] = hasUsedPhaseSetting ? input : phaseSetting;
             hasUsedPhaseSetting = true;
             pos += 2;
         },
-        4: v1 => {
-            output = v1;
+        4: i1 => {
+            output = v(i1);
             pos += 2;
             return true;
         },
-        5: (v1, v2) => {
-            if (v1 != 0) {
-                pos = v2;
+        5: (i1, i2) => {
+            if (v(i1) != 0) {
+                pos = v(i2);
             }
             else {
                 pos += 3;
             }
         },
-        6: (v1, v2) => {
-            if (v1 == 0) {
-                pos = v2;
+        6: (i1, i2) => {
+            if (v(i1) == 0) {
+                pos = v(i2);
             }
             else {
                 pos += 3;
             }
         },
-        7: (v1, v2) => {
-            arr[arr[pos + 3]] = (v1 < v2) ? 1 : 0;
+        7: (i1, i2, i3) => {
+            arr[i3] = v(i1) < v(i2) ? 1 : 0;
             pos += 4;
         },
-        8: (v1, v2) => {
-            arr[arr[pos + 3]] = (v1 == v2) ? 1 : 0;
+        8: (i1, i2, i3) => {
+            arr[i3] = v(i1) == v(i2) ? 1 : 0;
             pos += 4;
+        },
+        9: i1 => {
+            relativeBase += v(i1);
+            pos += 2;
         }
-    }
+    };
+
+    const parameterOperations = {
+        0: i => v(i),
+        1: i => i,
+        2: i => v(i) + relativeBase
+    };
 
     const run = inp => {
-        input = inp;
+        input = inp || 0;
         while (true) {
-            const opcode = arr[pos] % 100;
-            const strOpcode = `${arr[pos]}`.split('').reverse();
-            const values = [2, 3].map(i => +strOpcode[i] == 1 ? arr[pos + i - 1] : arr[arr[pos + i - 1]])
-    
+            const opcode = v(pos) % 100;
+            const strOpcode = `${v(pos)}`.split('').reverse();
+            const indexes = [2, 3, 4].map(i => parameterOperations[+strOpcode[i] || 0](pos + i - 1));
             if (opcode == 99) {
                 return {output: output, complete: true};
             } else {
-                if (operations[opcode](...values)) {
+                if (operations[opcode](...indexes)) {
                     return {output: output, complete: false};
                 }
             }
@@ -73,7 +85,7 @@ const create = (arr, phaseSetting, usePhaseSetting) => {
                 return output.output;
             }
         }
-    };
+    }
 
     const getElementZero = () => arr[0];
 
