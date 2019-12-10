@@ -27,20 +27,10 @@ const create = (arr, phaseSetting, usePhaseSetting) => {
             return true;
         },
         5: (i1, i2) => {
-            if (v(i1) != 0) {
-                pos = v(i2);
-            }
-            else {
-                pos += 3;
-            }
+            pos = v(i1) != 0 ? v(i2) : pos + 3;
         },
         6: (i1, i2) => {
-            if (v(i1) == 0) {
-                pos = v(i2);
-            }
-            else {
-                pos += 3;
-            }
+            pos = v(i1) == 0 ? v(i2) : pos + 3;
         },
         7: (i1, i2, i3) => {
             arr[i3] = v(i1) < v(i2) ? 1 : 0;
