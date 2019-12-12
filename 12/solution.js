@@ -33,7 +33,7 @@ const runPart1 = moons => {
 };
 
 const runPart2 = moons => {
-    initial = JSON.parse(JSON.stringify(moons));
+    const initial = JSON.parse(JSON.stringify(moons));
     let periods = range(3).map(_ => 0);
 
     const moonIsInIitialState = (m, mi, axis) => m.position[axis] === initial[mi].position[axis] && m.velocity[axis] === initial[mi].velocity[axis];

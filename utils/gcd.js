@@ -1,3 +1,3 @@
-const gcd = (a, b) => (!b ? a : gcd(b, a % b));
+const gcd = (a, b) => b ? gcd(b, a % b) : a;
 
 module.exports = gcd;
