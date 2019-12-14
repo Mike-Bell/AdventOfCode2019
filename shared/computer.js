@@ -75,11 +75,22 @@ const create = (arr, phaseSetting, usePhaseSetting) => {
                 return output.output;
             }
         }
+    };
+
+    const runToCompletionWithCompleteOutputHistory = inp => {
+        const outputs = [];
+        while (true) {
+            const output = run(inp);
+            outputs.push(output.output);
+            if (output.complete) {
+                return outputs;
+            }
+        }
     }
 
     const getElementZero = () => arr[0];
 
-    return {run, runToCompletion, getElementZero};
+    return {run, runToCompletion, getElementZero, runToCompletionWithCompleteOutputHistory};
 };
 
 module.exports = {create};
