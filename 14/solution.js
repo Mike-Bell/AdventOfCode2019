@@ -2,7 +2,7 @@ const sum = require('../utils/sum');
 
 const parseInput = input => input.split('\n').map(line => {
    const parseCompound = c => {
-   const splitC = c.trim().split(' ');
+      const splitC = c.trim().split(' ');
       return {amount: +splitC[0], name: splitC[1]};
    };
 

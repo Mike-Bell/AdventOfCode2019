@@ -1,9 +1,20 @@
 {
   "scripts": {
     "test": "node testRunner.js",
-    "solution": "node solutionRunner.js"
+    "solution": "node solutionRunner.js",
+    "lint": "eslint ./**/*.js",
+    "lint-fix": "eslint ./**/*.js --fix"
   },
   "dependencies": {
     "jest": "^24.9.0"
+  },
+  "eslintConfig": {
+    "rules": {
+      "indent": ["error", 3]
+    },
+    "parserOptions": {"ecmaVersion": 6}
+  },
+  "devDependencies": {
+    "eslint": "^6.7.2"
   }
 }
