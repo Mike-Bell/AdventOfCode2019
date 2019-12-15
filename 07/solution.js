@@ -18,7 +18,7 @@ const runPart2 = arr => {
       let val = 0;
       let valFromE = -1;
       let amplifier = 0;
-      let computers = p.map(n => computerFactory.create([...arr], n, true));
+      const computers = p.map(n => computerFactory.create([...arr], n, true));
       while (true) {
          const output = computers[amplifier].run(val);
          val = output.output;

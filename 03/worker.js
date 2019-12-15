@@ -3,10 +3,10 @@ const pointsFromCommands = commands => {
    let y = 0;
    const points = [];
    const directionsToIncrementers = {
-      'R': () => x++,
-      'L': () => x--,
-      'U': () => y++,
-      'D': () => y--
+      R: () => x++,
+      L: () => x--,
+      U: () => y++,
+      D: () => y--
    };
 
    let totalDistance = 0;

@@ -60,19 +60,18 @@ const create = (arr, phaseSetting, usePhaseSetting) => {
          const indexes = [2, 3, 4].map(i => parameterOperations[+strOpcode[i] || 0](pos + i - 1));
          if (opcode == 99) {
             return {output: output, complete: true};
-         } else {
-            if (operations[opcode](...indexes)) {
-               return {output: output, complete: false};
-            }
+         }
+         if (operations[opcode](...indexes)) {
+            return {output: output, complete: false};
          }
       }
    };
 
    const runToCompletion = inp => {
       while (true) {
-         const output = run(inp);
-         if (output.complete) {
-            return output.output;
+         const out = run(inp);
+         if (out.complete) {
+            return out.output;
          }
       }
    };
@@ -80,13 +79,13 @@ const create = (arr, phaseSetting, usePhaseSetting) => {
    const runToCompletionWithCompleteOutputHistory = inp => {
       const outputs = [];
       while (true) {
-         const output = run(inp);
-         outputs.push(output.output);
-         if (output.complete) {
+         const out = run(inp);
+         outputs.push(out.output);
+         if (out.complete) {
             return outputs;
          }
       }
-   }
+   };
 
    const getElementZero = () => arr[0];
 
