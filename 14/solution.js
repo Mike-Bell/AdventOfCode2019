@@ -13,10 +13,6 @@ const parseInput = input => input.split('\n').map(line => {
    return {reactants, product};
 });
 
-const runPart1 = reactions => {
-   return getOreNeededFor('FUEL', 1, reactions, {}); 
-};
-
 const getOreNeededFor = (compound, amount, reactions, leftOvers) => {
    if (compound === 'ORE') {
       return amount;
@@ -38,6 +34,10 @@ const getOreNeededFor = (compound, amount, reactions, leftOvers) => {
    return sum(reaction.reactants.map(r => getOreNeededFor(r.name, r.amount * reactionsNeeded, reactions, leftOvers)));
 };
 
+const runPart1 = reactions => {
+   return getOreNeededFor('FUEL', 1, reactions, {});
+};
+
 const runPart2 = reactions => {
    let total = 0;
    const T = 1000 * 1000 * 1000 * 1000;
@@ -46,13 +46,13 @@ const runPart2 = reactions => {
    let cyclesToRun = 1;
 
    while (true) {
-      let oreNeededForCycles = getOreNeededFor('FUEL', cyclesToRun, reactions, leftOvers);
+      const oreNeededForCycles = getOreNeededFor('FUEL', cyclesToRun, reactions, leftOvers);
       if (total + oreNeededForCycles < T) {
          total += oreNeededForCycles;
          fuel += cyclesToRun;
          
          const remainingOreToUse = T - total;
-         cyclesToRun = Math.floor(remainingOreToUse * cyclesToRun / oreNeededForCycles );
+         cyclesToRun = Math.floor(remainingOreToUse * cyclesToRun / oreNeededForCycles);
       } else {
          if (cyclesToRun > 1) {
             cyclesToRun = Math.floor(cyclesToRun / 2);

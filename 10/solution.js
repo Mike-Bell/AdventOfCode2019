@@ -4,20 +4,20 @@ const slopeBetweenAsteroids = (a1, a2) => (a2.y - a1.y) / (a2.x - a1.x);
 
 const areSameAsteroid = (a1, a2) => a2.x === a1.x && a2.y === a1.y;
 
-const asteroidIsBetweenBounds = (y1, y2, x1, x2, a)  => a.x >= x1 && a.x <= x2 && a.y >= y1 && a.y <= y2;
+const asteroidIsBetweenBounds = (y1, y2, x1, x2, a) => a.x >= x1 && a.x <= x2 && a.y >= y1 && a.y <= y2;
 
 const getAsteroids = grid => {
-   const asteroids = []; 
+   const asteroids = [];
    grid.forEach((line, y) => {
       line.forEach((ele, x) => {
          if (ele === '#') {
-            asteroids.push({x: x, y: y});
+            asteroids.push({x, y});
          }
       });
    });
 
    return asteroids;
-}
+};
 
 const getMaximallyObservantViewData = asteroids => {
    const viewData = asteroids.map(a1 => {
@@ -27,8 +27,8 @@ const getMaximallyObservantViewData = asteroids => {
          }
 
          const slope = slopeBetweenAsteroids(a1, a2);
-         const [y2, y1] = a2.y > a1.y ?  [a2.y, a1.y] : [a1.y, a2.y];
-         const [x2, x1] = a2.x > a1.x ?  [a2.x, a1.x] : [a1.x, a2.x];
+         const [y2, y1] = a2.y > a1.y ? [a2.y, a1.y] : [a1.y, a2.y];
+         const [x2, x1] = a2.x > a1.x ? [a2.x, a1.x] : [a1.x, a2.x];
          const candidateBlockers = asteroids.filter(a3 => asteroidIsBetweenBounds(y1, y2, x1, x2, a3) && !areSameAsteroid(a3, a2) && !areSameAsteroid(a3, a1));
          return !candidateBlockers.some(a3 => slopeBetweenAsteroids(a1, a3) === slope);
       }).length;
@@ -87,7 +87,6 @@ const runPart2 = grid => {
 
          if (lowestDistance === rotationToTarget && Math.abs(t.x - station.x) < Math.abs(lowestTarget.x - station.x)) {
             lowestTarget = t;
-            return;
          }
       });
 

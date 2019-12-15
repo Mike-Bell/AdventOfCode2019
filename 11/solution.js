@@ -9,7 +9,7 @@ const runGridToCompletion = (grid, arr) => {
       direction = [(n ? 1 : -1) * direction[1], (n ? -1 : 1) * direction[0]];
    };
    const computer = computerFactory.create(arr);
-   while(true) {
+   while (true) {
       const [x, y] = coords;
       grid[x] = grid[x] || [];
       const currentColor = grid[x][y] || 0;
@@ -35,6 +35,7 @@ const runPart1 = arr => {
 
    let total = 0;
    for (const x in grid) {
+      // eslint-disable-next-line no-unused-vars
       for (const y in grid[x]) {
          total++;
       }
