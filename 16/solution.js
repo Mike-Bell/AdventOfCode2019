@@ -36,13 +36,15 @@ const repeatArray = (arr, count) => {
 };
 
 const runPart2 = arr => {
-   const outputIndex = +arr.slice(0, 7).reduce((acc, curr) => acc + curr, '');
-   arr = repeatArray(arr, 10000);
+   let outputIndex = +arr.slice(0, 7).reduce((acc, curr) => acc + curr, '');
+   const cyclesToIgnore = Math.floor(outputIndex / arr.length);
+   outputIndex = outputIndex - cyclesToIgnore * arr.length;
+   arr = repeatArray(arr, 10000 - cyclesToIgnore);
 
    let current = [...arr];
    const next = [];
    range(100).forEach(i => {
-      range(arr.length).reverse().forEach(j => {
+      range(outputIndex, arr.length).reverse().forEach(j => {
          next[j] = Math.abs((next[j + 1] || 0) + current[j]) % 10;
       });
       current = [...next];
