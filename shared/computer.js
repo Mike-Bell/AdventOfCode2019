@@ -52,6 +52,26 @@ const create = (arr, phaseSetting, usePhaseSetting) => {
       2: i => v(i) + relativeBase
    };
 
+   const runTilNextInput = inp => {
+      input = inp || 0;
+      let i = 0;
+      while (true) {
+         const opcode = v(pos) % 100;
+         if (opcode === 3 && i > 0) {
+            return {output: output, complete: false};
+         }
+         const strOpcode = `${v(pos)}`.split('').reverse();
+         const indexes = [2, 3, 4].map(i => parameterOperations[+strOpcode[i] || 0](pos + i - 1));
+         if (opcode == 99) {
+            return {output: output, complete: true};
+         }
+         if (operations[opcode](...indexes)) {
+            return {output: output, complete: false};
+         }
+         i++;
+      }
+   };
+
    const run = inp => {
       input = inp || 0;
       while (true) {
@@ -89,7 +109,7 @@ const create = (arr, phaseSetting, usePhaseSetting) => {
 
    const getElementZero = () => arr[0];
 
-   return {run, runToCompletion, getElementZero, runToCompletionWithCompleteOutputHistory};
+   return {run, runToCompletion, runTilNextInput, getElementZero, runToCompletionWithCompleteOutputHistory};
 };
 
 module.exports = {create};
