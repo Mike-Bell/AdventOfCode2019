@@ -1,7 +1,7 @@
 {
   "scripts": {
     "test": "node testRunner.js",
-    "solution": "node solutionRunner.js",
+    "solution": "node --max-old-space-size=32000 solutionRunner.js",
     "lint": "eslint ./**/*.js",
     "lint-fix": "eslint ./**/*.js --fix"
   },
