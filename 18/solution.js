@@ -123,9 +123,8 @@ const runPart2 = grid => {
       grid[y0 + dpos[0]][x0 + dpos[1]] = 0;
    });
 
-   const pad = str => str.length > 1 ? str : '0' + str;
    let maxKeys = 0;
-   let states = [0, 1, 2, 3].map(ri => ({positions: [[-1, -1], [1, -1], [-1, 1], [1, 1]].map(dp => [x0 + dp[0], y0 + dp[1]]), activeRobot: ri, keys: []}));
+   let states = [0, 1, 2, 3].map(ri => ({positions: [[-1, -1], [1, -1], [-1, 1], [1, 1]].map(dp => [x0 + dp[0], y0 + dp[1]]), activeRobot: ri, keys: [], keyStr: ''}));
    let i = 0;
    let traveled = {};
    while (true) {
@@ -134,6 +133,7 @@ const runPart2 = grid => {
       let nextStates = [];
       states.forEach(s => {
          const keys = s.keys;
+         const keyStr = s.keyStr;
          const r = s.positions[s.activeRobot];
          const x = r[0];
          const y = r[1];
@@ -141,14 +141,14 @@ const runPart2 = grid => {
             const [newX, newY] = newPos;
             const nextPositions = [...s.positions];
             nextPositions[s.activeRobot] = newPos;
-            const cacheKey = `${nextPositions.map(pos => pad(pos[0].toString(36)) + pad(pos[1].toString(36)))}${keys.join('')}`;
+            const cacheKey = `${nextPositions.map(pos => `${pos[0]},${pos[1]}`).join(',')},${keyStr}`;
             
             if (traveled[cacheKey]) {
                return;
             }
             traveled[cacheKey] = true;
 
-            const newState = {positions: nextPositions, keys: keys, activeRobot: s.activeRobot};
+            const newState = {positions: nextPositions, keys: keys, keyStr: keyStr, activeRobot: s.activeRobot};
             const val = grid[newY][newX];
             
             if (!val) {
@@ -164,7 +164,7 @@ const runPart2 = grid => {
                      }
                      newState.keys = newKeys;;
                      [0, 1, 2, 3].forEach(ri => {
-                        nextStates.push({positions: nextPositions, keys: newKeys, activeRobot: ri});
+                        nextStates.push({positions: nextPositions, keys: newKeys, keyStr: newKeys.join(''), activeRobot: ri});
                      });
                   } else { // old key. Continue.
                      nextStates.push(newState);
@@ -175,15 +175,14 @@ const runPart2 = grid => {
             }
          });
       });
-      
-      if (nextStates.some(s => s.keys.length >= totalKeys)) {
-         break;
-      }
 
       if (maxKeysChanged) {
+         if (maxKeys >= totalKeys) {
+            break;
+         } 
          const maxKeyPruneFudgeFactor = 4; // lower numbers make this run faster but risk pruning the solution
          nextStates = nextStates.filter(s => s.keys.length >= maxKeys - maxKeyPruneFudgeFactor);
-         traveled = Object.keys(traveled).filter(key => key.length >= maxKeys + 16 - maxKeyPruneFudgeFactor).map(key => traveled[key]);
+         traveled = Object.keys(traveled).filter(key => key.length >= maxKeys + 25 - maxKeyPruneFudgeFactor).map(key => traveled[key]);
       }
       console.log(nextStates.length, maxKeys);
 
