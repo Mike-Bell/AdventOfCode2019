@@ -127,6 +127,7 @@ const runPart2 = grid => {
    let states = [0, 1, 2, 3].map(ri => ({positions: [[-1, -1], [1, -1], [-1, 1], [1, 1]].map(dp => [x0 + dp[0], y0 + dp[1]]), activeRobot: ri, keys: {}, keyStr: ''}));
    let i = 0;
    let traveled = {};
+
    while (true) {
       let maxKeysChanged = false;
       i++;
