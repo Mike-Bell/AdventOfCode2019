@@ -124,11 +124,11 @@ const runPart2 = grid => {
    });
 
    let maxKeys = 0;
-   let states = [0, 1, 2, 3].map(ri => ({positions: [[-1, -1], [1, -1], [-1, 1], [1, 1]].map(dp => [x0 + dp[0], y0 + dp[1]]), activeRobot: ri, keys: [], keyStr: ''}));
+   let states = [0, 1, 2, 3].map(ri => ({positions: [[-1, -1], [1, -1], [-1, 1], [1, 1]].map(dp => [x0 + dp[0], y0 + dp[1]]), activeRobot: ri, keys: {}, keyStr: ''}));
    let i = 0;
    let traveled = {};
    while (true) {
-       let maxKeysChanged = false;
+      let maxKeysChanged = false;
       i++;
       let nextStates = [];
       states.forEach(s => {
@@ -141,8 +141,8 @@ const runPart2 = grid => {
             const [newX, newY] = newPos;
             const nextPositions = [...s.positions];
             nextPositions[s.activeRobot] = newPos;
-            const cacheKey = `${nextPositions.map(pos => `${pos[0]},${pos[1]}`).join(',')},${keyStr}`;
             
+            const cacheKey = `${nextPositions.flat().join(',')},${keyStr}`;
             if (traveled[cacheKey]) {
                return;
             }
@@ -156,20 +156,21 @@ const runPart2 = grid => {
             } else if (val !== '#') {
                const lowerVal = val.toLowerCase();
                if (val === lowerVal) { //stepped on a key
-                  if (!keys.includes(val)) { // new key. Add it to keyring and switch robots
-                     const newKeys = [...keys, val].sort();
-                     if (newKeys.length > maxKeys) {
-                        maxKeys = newKeys.length;
+                  if (!keys[val]) { // new key. Add it to keyring and switch robots
+                     const newKeys = {...keys, [val]: true};
+                     const keysList = Object.keys(newKeys);
+                     if (keysList.length > maxKeys) {
+                        maxKeys = keysList.length;
                         maxKeysChanged = true;
                      }
-                     newState.keys = newKeys;;
+                     const newKeyStr = keysList.sort().join('');
                      [0, 1, 2, 3].forEach(ri => {
-                        nextStates.push({positions: nextPositions, keys: newKeys, keyStr: newKeys.join(''), activeRobot: ri});
+                        nextStates.push({positions: nextPositions, keys: newKeys, keyStr: newKeyStr, activeRobot: ri});
                      });
                   } else { // old key. Continue.
                      nextStates.push(newState);
                   }
-               } else if (keys.includes(lowerVal)) { // unlocked door
+               } else if (keys[lowerVal]) { // unlocked door
                   nextStates.push(newState);
                }
             }
@@ -179,9 +180,9 @@ const runPart2 = grid => {
       if (maxKeysChanged) {
          if (maxKeys >= totalKeys) {
             break;
-         } 
+         }
          const maxKeyPruneFudgeFactor = 4; // lower numbers make this run faster but risk pruning the solution
-         nextStates = nextStates.filter(s => s.keys.length >= maxKeys - maxKeyPruneFudgeFactor);
+         nextStates = nextStates.filter(s => s.keyStr.length >= maxKeys - maxKeyPruneFudgeFactor);
          traveled = Object.keys(traveled).filter(key => key.length >= maxKeys + 25 - maxKeyPruneFudgeFactor).map(key => traveled[key]);
       }
       console.log(nextStates.length, maxKeys);
